@@ -11,17 +11,6 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-# Membaca setiap dataset ke dalam DataFrame pandas
-customers = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_customers_dataset.csv')
-geolocation = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_geolocation_dataset.csv')
-order_items = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_order_items_dataset.csv')
-order_payments = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_order_payments_dataset.csv')
-order_reviews = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_order_reviews_dataset.csv')
-orders = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_orders_dataset.csv')
-products = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_products_dataset.csv')
-sellers = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_sellers_dataset.csv')
-product_category_translation = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/product_category_name_translation.csv')
-
 # Fungsi untuk menghitung RFM
 def calculate_rfm(orders, customers, order_items):
     # Mengonversi kolom order_purchase_timestamp menjadi datetime
