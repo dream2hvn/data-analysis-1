@@ -18,43 +18,8 @@ import seaborn as sns
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
 
-# Fungsi untuk menghitung RFM
-def calculate_rfm():
-    # Pastikan kolom order_purchase_timestamp ada di dalam dataset
-    if 'order_purchase_timestamp' not in orders_df.columns:
-        raise KeyError('Kolom order_purchase_timestamp tidak ditemukan dalam orders_df')
-    
-    # Mengonversi kolom order_purchase_timestamp menjadi datetime
-    orders_df['order_purchase_timestamp'] = pd.to_datetime(orders_df['order_purchase_timestamp'], errors='coerce')
-    
-    # Menghapus baris dengan nilai NaT di order_purchase_timestamp
-    orders_df.dropna(subset=['order_purchase_timestamp'], inplace=True)
-    
-    # Menghitung nilai RFM (recency, frequency, monetary)
-    current_date = orders_df['order_purchase_timestamp'].max()
-    
-    orders_customers_df = pd.merge(orders_df[['order_id', 'customer_id', 'order_purchase_timestamp']], customers_df, on='customer_id', how='inner')
-    recency_df = orders_customers_df.groupby('customer_unique_id').agg(
-        last_purchase=('order_purchase_timestamp', 'max')
-    ).reset_index()
-    recency_df['recency'] = (current_date - recency_df['last_purchase']).dt.days
-
-    frequency_df = orders_customers_df.groupby('customer_unique_id').agg(
-        frequency=('order_id', 'count')
-    ).reset_index()
-
-    monetary_df = pd.merge(orders_customers_df[['order_id', 'customer_unique_id']], order_items_df[['order_id', 'price']], on='order_id', how='inner')
-    monetary_df = monetary_df.groupby('customer_unique_id').agg(
-        total_spent=('price', 'sum')
-    ).reset_index()
-
-    rfm_df = pd.merge(recency_df[['customer_unique_id', 'recency']], frequency_df[['customer_unique_id', 'frequency']], on='customer_unique_id')
-    rfm_df = pd.merge(rfm_df, monetary_df[['customer_unique_id', 'total_spent']], on='customer_unique_id')
-
-    return rfm_df
-    
 # Menghitung RFM
-rfm_df = calculate_rfm()
+rfm_df = calculate_rfm(orders_df, customers_df, order_items_df)
 
 # Menampilkan judul aplikasi
 st.title('Visualisasi RFM Analysis')
