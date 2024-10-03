@@ -22,7 +22,6 @@ st.title("Dashboard Analisis E-commerce")
 def load_data():
 
 # Menampilkan data dasar
-st.header("Informasi Dataset")
 st.subheader("Customers Dataset")
 st.write(customers.info())
 st.write(customers.head())
