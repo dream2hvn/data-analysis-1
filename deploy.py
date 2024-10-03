@@ -47,12 +47,13 @@ def calculate_rfm():
 
     return rfm_df
 
-# Membuat visualisasi di Streamlit
-st.title('RFM Correlation Heatmap')
+# Menghitung RFM
+rfm_df = calculate_rfm()
 
-fig, ax = plt.subplots()
-sns.heatmap(corr_rfm_df, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax)
-ax.set_title('Correlation Matrix for RFM')
+# Membuat pairplot untuk visualisasi korelasi antar variabel
+st.title('RFM Pair Plot')
 
+# Pair plot menggunakan Seaborn
+sns.pairplot(rfm_df[['recency', 'frequency', 'total_spent']])
 # Tampilkan visualisasi heatmap menggunakan Streamlit
 st.pyplot(plt)
