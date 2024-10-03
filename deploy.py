@@ -21,9 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Menampilkan peta dengan Streamlit
-st.map(geolocation_map)
-
 # Peta interaktif dengan Folium
 st.subheader("Peta Interaktif Pelanggan")
 m = folium.Map(location=[-15.77972, -47.92972], zoom_start=4)
