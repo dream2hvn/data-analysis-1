@@ -18,11 +18,6 @@ import seaborn as sns
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
 
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
 # Fungsi untuk menghitung RFM
 def calculate_rfm(orders, customers, order_items):
     # Mengonversi kolom order_purchase_timestamp menjadi datetime
@@ -69,11 +64,6 @@ def calculate_rfm(orders, customers, order_items):
                    on='customer_unique_id')
 
     return rfm
-
-# Memuat dataset (pastikan file CSV sudah ada di direktori yang benar)
-customers = pd.read_csv('olist_customers_dataset.csv')
-orders = pd.read_csv('olist_orders_dataset.csv')
-order_items = pd.read_csv('olist_order_items_dataset.csv')
 
 # Menghitung RFM
 rfm = calculate_rfm(orders, customers, order_items)
