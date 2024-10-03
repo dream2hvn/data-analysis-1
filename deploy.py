@@ -50,9 +50,9 @@ def calculate_rfm():
 # Membuat visualisasi di Streamlit
 st.title('RFM Correlation Heatmap')
 
-plt.figure(figsize=(6, 4))
-sns.heatmap(corr_rfm, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
-plt.title('Correlation Matrix for RFM')
+fig, ax = plt.subplots()
+sns.heatmap(corr_rfm, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax)
+ax.set_title('Correlation Matrix for RFM')
 
 # Tampilkan visualisasi heatmap menggunakan Streamlit
 st.pyplot(plt)
