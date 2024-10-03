@@ -13,7 +13,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import folium
 from folium.plugins import MarkerCluster
-from streamlit_folium import folium_static
 
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
