@@ -21,8 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-geolocation_map.columns = ['lat', 'lon']
-
 # Menampilkan peta dengan Streamlit
 st.map(geolocation_map)
 
