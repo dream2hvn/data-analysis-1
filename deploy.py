@@ -21,8 +21,8 @@ st.title("Dashboard Analisis E-commerce")
 # Fungsi untuk menghitung RFM
 def calculate_rfm():
     # Menghitung recency
-    orders_df['order_purchase_timestamp'] = pd.to_datetime(orders_df['order_purchase_timestamp'])
-    current_date = orders_df['order_purchase_timestamp'].max()
+    orders['order_purchase_timestamp'] = pd.to_datetime(orders['order_purchase_timestamp'])
+    current_date = orders['order_purchase_timestamp'].max()
 
     orders_customers_df = pd.merge(orders_df[['order_id', 'customer_id', 'order_purchase_timestamp']], customers_df, on='customer_id', how='inner')
     recency_df = orders_customers_df.groupby('customer_unique_id').agg(
@@ -46,9 +46,6 @@ def calculate_rfm():
     rfm_df = pd.merge(rfm_df, monetary_df[['customer_unique_id', 'total_spent']], on='customer_unique_id')
 
     return rfm_df
-
-# Menghitung RFM
-rfm = calculate_rfm()
 
 # Membuat heatmap korelasi
 corr_rfm = rfm_df[['recency', 'frequency', 'total_spent']].corr()
