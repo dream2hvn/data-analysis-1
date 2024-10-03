@@ -20,7 +20,6 @@ st.title("Dashboard Analisis E-commerce")
 # Fungsi untuk memuat dataset
 @st.cache
 def load_data():
-    return customers, geolocation, orders, order_items, order_payments
 
 # Memuat data
 customers, geolocation, orders, order_items, order_payments = load_data()
