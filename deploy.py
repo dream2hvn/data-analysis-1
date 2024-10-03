@@ -21,11 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Menampilkan data dasar
-st.subheader("Orders Dataset")
-st.write(orders.info())
-st.write(orders.head())
-
 # Memeriksa missing values
 st.header("Missing Values di Setiap Dataset")
 st.write("Missing values in Customers dataset:", customers.isnull().sum())
