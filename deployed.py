@@ -7,9 +7,6 @@ Original file is located at
     https://colab.research.google.com/drive/1HrWbeuarj6T4gAc6b15lu6woa7GsLevn
 """
 
-from google.colab import drive
-drive.mount('/content/drive')
-
 import streamlit as st
 import pandas as pd
 import seaborn as sns
