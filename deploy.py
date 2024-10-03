@@ -21,12 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-ax.bar(missing_values['Column'], missing_values['Missing Values'])
-ax.set_ylabel('Jumlah Missing Values')
-ax.set_title('Missing Values per Kolom di Dataset Customers')
-plt.xticks(rotation=45)
-st.pyplot(fig)
-
 # Peta Geolokasi Pelanggan
 st.header("Peta Geolokasi Pelanggan")
 
