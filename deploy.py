@@ -16,7 +16,3 @@ from folium.plugins import MarkerCluster
 
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
-
-# Fungsi untuk memuat dataset
-@st.cache
-def load_data():
