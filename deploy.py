@@ -20,7 +20,6 @@ st.title("Dashboard Analisis E-commerce")
 # Fungsi untuk memuat dataset
 @st.cache
 def load_data():
-    customers = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_customers_dataset.csv')
     geolocation = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_geolocation_dataset.csv')
     orders = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_orders_dataset.csv')
     order_items = pd.read_csv('/content/drive/MyDrive/DATA ANALISIS/olist_order_items_dataset.csv')
