@@ -21,11 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Membuat visualisasi data penjualan
-st.header("Visualisasi Data Penjualan")
-total_sales = order_items.groupby('order_id').price.sum()
-st.write(f"Total penjualan: {total_sales.sum()}")
-
 # Visualisasi Missing Values
 st.subheader("Visualisasi Missing Values")
 missing_values = customers.isnull().sum().reset_index()
