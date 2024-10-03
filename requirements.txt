@@ -1,0 +1,5 @@
+streamlit
+pandas==2.2.2
+matplotlib==3.7.1
+folium
+pip==24.1.2
