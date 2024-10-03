@@ -46,11 +46,49 @@ def calculate_rfm():
 # Menghitung RFM
 rfm_df = calculate_rfm()
 
-# Membuat pairplot untuk visualisasi korelasi antar variabel
-st.title('RFM Pair Plot')
+# Menampilkan judul aplikasi
+st.title('Visualisasi RFM Analysis')
 
-# Pair plot menggunakan Seaborn
-sns.pairplot(rfm_df[['recency', 'frequency', 'total_spent']])
+# Pilihan visualisasi yang tersedia
+visualization_type = st.sidebar.selectbox(
+    'Pilih jenis visualisasi',
+    ('Histogram', 'Scatter Plot', 'Heatmap Korelasi')
+)
 
-# Tampilkan visualisasi heatmap menggunakan Streamlit
-st.pyplot(plt)
+# Menampilkan visualisasi sesuai pilihan pengguna
+if visualization_type == 'Histogram':
+    st.subheader('Histogram untuk Variabel RFM')
+
+    # Pilihan variabel untuk ditampilkan
+    variable = st.selectbox('Pilih variabel', ('recency', 'frequency', 'total_spent'))
+
+    # Membuat histogram
+    fig, ax = plt.subplots()
+    sns.histplot(rfm_df[variable], bins=30, kde=True, ax=ax)
+    ax.set_title(f'Distribusi {variable}')
+    st.pyplot(fig)
+
+elif visualization_type == 'Scatter Plot':
+    st.subheader('Scatter Plot untuk Variabel RFM')
+
+    # Pilihan variabel X dan Y
+    x_axis = st.selectbox('Pilih variabel X', ('recency', 'frequency', 'total_spent'))
+    y_axis = st.selectbox('Pilih variabel Y', ('recency', 'frequency', 'total_spent'))
+
+    # Membuat scatter plot
+    fig, ax = plt.subplots()
+    sns.scatterplot(x=rfm_df[x_axis], y=rfm_df[y_axis], ax=ax)
+    ax.set_title(f'Scatter Plot antara {x_axis} dan {y_axis}')
+    st.pyplot(fig)
+
+elif visualization_type == 'Heatmap Korelasi':
+    st.subheader('Heatmap Korelasi antara Variabel RFM')
+
+    # Menghitung matriks korelasi
+    corr_rfm = rfm_df[['recency', 'frequency', 'total_spent']].corr()
+
+    # Membuat heatmap
+    fig, ax = plt.subplots()
+    sns.heatmap(corr_rfm, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax)
+    ax.set_title('Correlation Matrix for RFM')
+    st.pyplot(fig)
