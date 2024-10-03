@@ -48,7 +48,7 @@ def calculate_rfm():
     return rfm_df
 
 # Menghitung RFM
-rfm_df = calculate_rfm()
+rfm = calculate_rfm()
 
 # Membuat heatmap korelasi
 corr_rfm = rfm_df[['recency', 'frequency', 'total_spent']].corr()
