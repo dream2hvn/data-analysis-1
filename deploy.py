@@ -21,8 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Visualisasi Missing Values
-st.subheader("Visualisasi Missing Values")
 missing_values = customers.isnull().sum().reset_index()
 missing_values.columns = ['Column', 'Missing Values']
 
