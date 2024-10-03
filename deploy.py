@@ -20,9 +20,19 @@ st.title("Dashboard Analisis E-commerce")
 
 # Fungsi untuk menghitung RFM
 def calculate_rfm():
-    orders_df['order_purchase_timestamp'] = pd.to_datetime(orders_df['order_purchase_timestamp'])
+    # Pastikan kolom order_purchase_timestamp ada di dalam dataset
+    if 'order_purchase_timestamp' not in orders_df.columns:
+        raise KeyError('Kolom order_purchase_timestamp tidak ditemukan dalam orders_df')
+    
+    # Mengonversi kolom order_purchase_timestamp menjadi datetime
+    orders_df['order_purchase_timestamp'] = pd.to_datetime(orders_df['order_purchase_timestamp'], errors='coerce')
+    
+    # Menghapus baris dengan nilai NaT di order_purchase_timestamp
+    orders_df.dropna(subset=['order_purchase_timestamp'], inplace=True)
+    
+    # Menghitung nilai RFM (recency, frequency, monetary)
     current_date = orders_df['order_purchase_timestamp'].max()
-
+    
     orders_customers_df = pd.merge(orders_df[['order_id', 'customer_id', 'order_purchase_timestamp']], customers_df, on='customer_id', how='inner')
     recency_df = orders_customers_df.groupby('customer_unique_id').agg(
         last_purchase=('order_purchase_timestamp', 'max')
@@ -42,7 +52,7 @@ def calculate_rfm():
     rfm_df = pd.merge(rfm_df, monetary_df[['customer_unique_id', 'total_spent']], on='customer_unique_id')
 
     return rfm_df
-
+    
 # Menghitung RFM
 rfm_df = calculate_rfm()
 
