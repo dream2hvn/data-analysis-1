@@ -13,19 +13,10 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import folium
 from folium.plugins import MarkerCluster
+import seaborn as sns
 
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
-
-import streamlit as st
-import pandas as pd
-import seaborn as sns
-import matplotlib.pyplot as plt
-
-# Memuat dataset yang ada (sesuaikan path jika berbeda)
-customers_df = pd.read_csv('path_to/olist_customers_dataset.csv')
-orders_df = pd.read_csv('path_to/olist_orders_dataset.csv')
-order_items_df = pd.read_csv('path_to/olist_order_items_dataset.csv')
 
 # Fungsi untuk menghitung RFM
 def calculate_rfm():
