@@ -21,9 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Memuat data
-customers, geolocation, orders, order_items, order_payments = load_data()
-
 # Menampilkan data dasar
 st.header("Informasi Dataset")
 st.subheader("Customers Dataset")
