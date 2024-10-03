@@ -21,14 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Mengambil hanya kolom latitude (geolocation_lat)
-# Tambahkan nilai default untuk longitude, misalnya 0 atau nilai rata-rata dari longitude
-geolocation_map = geolocation[['geolocation_lat']].copy()
-
-# Tambahkan kolom longitude dengan nilai tetap, misalnya longitude 110 (longitude Indonesia tengah)
-geolocation_map['geolocation_lng'] = 110.0  # Nilai default untuk longitude, misalnya Indonesia
-
-# Mengganti nama kolom agar sesuai dengan yang diharapkan oleh st.map()
 geolocation_map.columns = ['lat', 'lon']
 
 # Menampilkan peta dengan Streamlit
