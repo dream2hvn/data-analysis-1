@@ -16,3 +16,58 @@ from folium.plugins import MarkerCluster
 
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
+
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Memuat dataset yang ada (sesuaikan path jika berbeda)
+customers_df = pd.read_csv('path_to/olist_customers_dataset.csv')
+orders_df = pd.read_csv('path_to/olist_orders_dataset.csv')
+order_items_df = pd.read_csv('path_to/olist_order_items_dataset.csv')
+
+# Fungsi untuk menghitung RFM
+def calculate_rfm():
+    # Menghitung recency
+    orders_df['order_purchase_timestamp'] = pd.to_datetime(orders_df['order_purchase_timestamp'])
+    current_date = orders_df['order_purchase_timestamp'].max()
+
+    orders_customers_df = pd.merge(orders_df[['order_id', 'customer_id', 'order_purchase_timestamp']], customers_df, on='customer_id', how='inner')
+    recency_df = orders_customers_df.groupby('customer_unique_id').agg(
+        last_purchase=('order_purchase_timestamp', 'max')
+    ).reset_index()
+    recency_df['recency'] = (current_date - recency_df['last_purchase']).dt.days
+
+    # Menghitung frequency
+    frequency_df = orders_customers_df.groupby('customer_unique_id').agg(
+        frequency=('order_id', 'count')
+    ).reset_index()
+
+    # Menghitung monetary
+    monetary_df = pd.merge(orders_customers_df[['order_id', 'customer_unique_id']], order_items_df[['order_id', 'price']], on='order_id', how='inner')
+    monetary_df = monetary_df.groupby('customer_unique_id').agg(
+        total_spent=('price', 'sum')
+    ).reset_index()
+
+    # Menggabungkan recency, frequency, dan monetary
+    rfm_df = pd.merge(recency_df[['customer_unique_id', 'recency']], frequency_df[['customer_unique_id', 'frequency']], on='customer_unique_id')
+    rfm_df = pd.merge(rfm_df, monetary_df[['customer_unique_id', 'total_spent']], on='customer_unique_id')
+
+    return rfm_df
+
+# Menghitung RFM
+rfm_df = calculate_rfm()
+
+# Membuat heatmap korelasi
+corr_rfm = rfm_df[['recency', 'frequency', 'total_spent']].corr()
+
+# Membuat visualisasi di Streamlit
+st.title('RFM Correlation Heatmap')
+
+plt.figure(figsize=(6, 4))
+sns.heatmap(corr_rfm, annot=True, cmap='coolwarm', vmin=-1, vmax=1)
+plt.title('Correlation Matrix for RFM')
+
+# Tampilkan visualisasi heatmap menggunakan Streamlit
+st.pyplot(plt)
