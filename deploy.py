@@ -18,52 +18,101 @@ import seaborn as sns
 # Judul Dashboard
 st.title("Dashboard Analisis E-commerce")
 
+import streamlit as st
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
+
+# Fungsi untuk menghitung RFM
+def calculate_rfm(orders, customers, order_items):
+    # Mengonversi kolom order_purchase_timestamp menjadi datetime
+    orders['order_purchase_timestamp'] = pd.to_datetime(orders['order_purchase_timestamp'], errors='coerce')
+    orders.dropna(subset=['order_purchase_timestamp'], inplace=True)
+
+    current_date = orders['order_purchase_timestamp'].max()
+
+    # Gabungkan orders dengan customers berdasarkan customer_id untuk mendapatkan informasi pelanggan
+    orders_customers = pd.merge(orders[['order_id', 'customer_id', 'order_purchase_timestamp']], 
+                                customers, 
+                                on='customer_id', 
+                                how='inner')
+
+    # Menghitung recency (hari sejak pembelian terakhir)
+    recency = orders_customers.groupby('customer_unique_id').agg(
+        last_purchase=('order_purchase_timestamp', 'max')
+    ).reset_index()
+
+    recency['recency'] = (current_date - recency['last_purchase']).dt.days
+
+    # Menghitung frequency (jumlah order per pelanggan)
+    frequency = orders_customers.groupby('customer_unique_id').agg(
+        frequency=('order_id', 'count')
+    ).reset_index()
+
+    # Menghitung monetary (total pembelanjaan per pelanggan)
+    monetary = pd.merge(orders_customers[['order_id', 'customer_unique_id']], 
+                        order_items[['order_id', 'price']], 
+                        on='order_id', 
+                        how='inner')
+
+    monetary = monetary.groupby('customer_unique_id').agg(
+        total_spent=('price', 'sum')
+    ).reset_index()
+
+    # Menggabungkan recency, frequency, dan monetary menjadi satu dataframe RFM
+    rfm = pd.merge(recency[['customer_unique_id', 'recency']], 
+                   frequency[['customer_unique_id', 'frequency']], 
+                   on='customer_unique_id')
+
+    rfm = pd.merge(rfm, 
+                   monetary[['customer_unique_id', 'total_spent']], 
+                   on='customer_unique_id')
+
+    return rfm
+
+# Memuat dataset (pastikan file CSV sudah ada di direktori yang benar)
+customers = pd.read_csv('olist_customers_dataset.csv')
+orders = pd.read_csv('olist_orders_dataset.csv')
+order_items = pd.read_csv('olist_order_items_dataset.csv')
+
 # Menghitung RFM
-rfm_df = calculate_rfm(orders_df, customers_df, order_items_df)
+rfm = calculate_rfm(orders, customers, order_items)
 
 # Menampilkan judul aplikasi
-st.title('Visualisasi RFM Analysis')
+st.title('Visualisasi RFM Dataset')
 
-# Pilihan visualisasi yang tersedia
-visualization_type = st.sidebar.selectbox(
-    'Pilih jenis visualisasi',
+# Pilihan untuk tipe visualisasi
+visualization_type = st.selectbox(
+    'Pilih Visualisasi',
     ('Histogram', 'Scatter Plot', 'Heatmap Korelasi')
 )
 
-# Menampilkan visualisasi sesuai pilihan pengguna
+# Menampilkan visualisasi berdasarkan pilihan pengguna
 if visualization_type == 'Histogram':
-    st.subheader('Histogram untuk Variabel RFM')
-
-    # Pilihan variabel untuk ditampilkan
-    variable = st.selectbox('Pilih variabel', ('recency', 'frequency', 'total_spent'))
-
+    # Pilih variabel untuk ditampilkan di histogram
+    variable = st.selectbox('Pilih variabel untuk histogram', ('recency', 'frequency', 'total_spent'))
+    
     # Membuat histogram
+    st.subheader(f'Histogram dari {variable}')
     fig, ax = plt.subplots()
-    sns.histplot(rfm_df[variable], bins=30, kde=True, ax=ax)
-    ax.set_title(f'Distribusi {variable}')
+    sns.histplot(rfm[variable], bins=30, kde=True, ax=ax)
     st.pyplot(fig)
 
 elif visualization_type == 'Scatter Plot':
-    st.subheader('Scatter Plot untuk Variabel RFM')
-
-    # Pilihan variabel X dan Y
+    # Pilih variabel untuk scatter plot
     x_axis = st.selectbox('Pilih variabel X', ('recency', 'frequency', 'total_spent'))
     y_axis = st.selectbox('Pilih variabel Y', ('recency', 'frequency', 'total_spent'))
-
+    
     # Membuat scatter plot
+    st.subheader(f'Scatter Plot antara {x_axis} dan {y_axis}')
     fig, ax = plt.subplots()
-    sns.scatterplot(x=rfm_df[x_axis], y=rfm_df[y_axis], ax=ax)
-    ax.set_title(f'Scatter Plot antara {x_axis} dan {y_axis}')
+    sns.scatterplot(x=rfm[x_axis], y=rfm[y_axis], ax=ax)
     st.pyplot(fig)
 
 elif visualization_type == 'Heatmap Korelasi':
-    st.subheader('Heatmap Korelasi antara Variabel RFM')
-
-    # Menghitung matriks korelasi
-    corr_rfm = rfm_df[['recency', 'frequency', 'total_spent']].corr()
-
-    # Membuat heatmap
+    # Membuat heatmap korelasi
+    st.subheader('Heatmap Korelasi antara Recency, Frequency, dan Monetary')
+    corr = rfm[['recency', 'frequency', 'total_spent']].corr()
     fig, ax = plt.subplots()
-    sns.heatmap(corr_rfm, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax)
-    ax.set_title('Correlation Matrix for RFM')
+    sns.heatmap(corr, annot=True, cmap='coolwarm', vmin=-1, vmax=1, ax=ax)
     st.pyplot(fig)
