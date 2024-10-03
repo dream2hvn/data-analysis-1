@@ -21,9 +21,6 @@ st.title("Dashboard Analisis E-commerce")
 @st.cache
 def load_data():
 
-# Peta Geolokasi Pelanggan
-st.header("Peta Geolokasi Pelanggan")
-
 # Mengambil hanya kolom latitude (geolocation_lat)
 # Tambahkan nilai default untuk longitude, misalnya 0 atau nilai rata-rata dari longitude
 geolocation_map = geolocation[['geolocation_lat']].copy()
