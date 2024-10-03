@@ -48,7 +48,7 @@ def calculate_rfm():
     return rfm_df
 
 # Membuat heatmap korelasi
-corr_rfm = rfm[['recency', 'frequency', 'monetary']].corr()
+corr_rfm = rfm_df[['recency_df', 'frequency_df', 'monetary_df']].corr()
 
 # Membuat visualisasi di Streamlit
 st.title('RFM Correlation Heatmap')
