@@ -22,10 +22,6 @@ st.title("Dashboard Analisis E-commerce")
 def load_data():
 
 # Menampilkan data dasar
-st.subheader("Geolocation Dataset")
-st.write(geolocation.info())
-st.write(geolocation.head())
-
 st.subheader("Orders Dataset")
 st.write(orders.info())
 st.write(orders.head())
