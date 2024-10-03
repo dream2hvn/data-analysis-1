@@ -20,9 +20,8 @@ st.title("Dashboard Analisis E-commerce")
 
 # Fungsi untuk menghitung RFM
 def calculate_rfm():
-    # Menghitung recency
-    orders['order_purchase_timestamp'] = pd.to_datetime(orders['order_purchase_timestamp'])
-    current_date = orders['order_purchase_timestamp'].max()
+    orders_df['order_purchase_timestamp'] = pd.to_datetime(orders_df['order_purchase_timestamp'])
+    current_date = orders_df['order_purchase_timestamp'].max()
 
     orders_customers_df = pd.merge(orders_df[['order_id', 'customer_id', 'order_purchase_timestamp']], customers_df, on='customer_id', how='inner')
     recency_df = orders_customers_df.groupby('customer_unique_id').agg(
@@ -30,18 +29,15 @@ def calculate_rfm():
     ).reset_index()
     recency_df['recency'] = (current_date - recency_df['last_purchase']).dt.days
 
-    # Menghitung frequency
     frequency_df = orders_customers_df.groupby('customer_unique_id').agg(
         frequency=('order_id', 'count')
     ).reset_index()
 
-    # Menghitung monetary
     monetary_df = pd.merge(orders_customers_df[['order_id', 'customer_unique_id']], order_items_df[['order_id', 'price']], on='order_id', how='inner')
     monetary_df = monetary_df.groupby('customer_unique_id').agg(
         total_spent=('price', 'sum')
     ).reset_index()
 
-    # Menggabungkan recency, frequency, dan monetary
     rfm_df = pd.merge(recency_df[['customer_unique_id', 'recency']], frequency_df[['customer_unique_id', 'frequency']], on='customer_unique_id')
     rfm_df = pd.merge(rfm_df, monetary_df[['customer_unique_id', 'total_spent']], on='customer_unique_id')
 
@@ -55,5 +51,6 @@ st.title('RFM Pair Plot')
 
 # Pair plot menggunakan Seaborn
 sns.pairplot(rfm_df[['recency', 'frequency', 'total_spent']])
+
 # Tampilkan visualisasi heatmap menggunakan Streamlit
 st.pyplot(plt)
