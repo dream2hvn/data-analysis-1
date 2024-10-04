@@ -112,32 +112,22 @@ plt.suptitle('')  # Remove the automatic boxplot title
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('Average Freight Value by Geographic Region')
+st.title('Number of Orders per Customer')
 
-# Simulating customer geographic data (assuming there is a `customer_state` or `customer_city` column)
-# Here, we assume the dataset has a 'customer_state' column. You can adjust this based on your actual data.
-# If no such column exists, you can replace 'customer_state' with another relevant column, like 'seller_id' or 'product_category_name'.
+# Assuming there is a 'customer_id' column in the dataset
+# Count the number of orders per customer
+order_count_per_customer = data['order_id'].groupby(data['order_id']).count()
 
-# Check if 'customer_state' exists, else use an alternative (this is just an example assumption)
-if 'customer_state' in data.columns:
-    region_column = 'customer_state'
-elif 'customer_city' in data.columns:
-    region_column = 'customer_city'
-else:
-    st.error("The dataset does not contain 'customer_state' or 'customer_city'. Please adjust the code.")
-    region_column = None
+# Filter the top 10 customers with the most orders
+top_customers = order_count_per_customer.sort_values(ascending=False).head(10)
 
-if region_column:
-    # Calculate average freight value per region
-    region_freight_value = data.groupby(region_column)['freight_value'].mean().sort_values(ascending=False).head(10)
+# Bar plot: Number of orders per top 10 customers
+fig, ax = plt.subplots(figsize=(10, 6))
+top_customers.plot(kind='bar', ax=ax, color='purple')
 
-    # Plotting the average freight value by region
-    fig, ax = plt.subplots(figsize=(10, 6))
-    region_freight_value.plot(kind='bar', ax=ax, color='purple', alpha=0.7)
-    ax.set_title(f'Average Freight Value by {region_column.capitalize()}')
-    ax.set_xlabel(region_column.capitalize())
-    ax.set_ylabel('Average Freight Value (in currency)')
-    plt.xticks(rotation=45, ha='right')
+ax.set_title('Top 10 Customers by Number of Orders')
+ax.set_xlabel('Customer ID')
+ax.set_ylabel('Number of Orders')
 
-    # Display the plot in Streamlit
-    st.pyplot(fig)
+# Display the plot in Streamlit
+st.pyplot(fig)
