@@ -154,22 +154,22 @@ ax.axis('equal')
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('7. Number of Orders by Shipping Location')
+st.title('Average Freight Value by Shipping Location')
 
-# Assuming there is a 'shipping_state' or 'shipping_city' column in the dataset
-# Group by shipping location (city or state) and count the number of orders
-location_order_count = data.groupby('shipping_city')['order_id'].count()
+# Assuming there is a 'shipping_city' or 'shipping_state' column and a 'freight_value' column
+# Group by shipping location (city or state) and calculate the average freight value
+average_freight_by_location = data.groupby('shipping_city')['freight_value'].mean()
 
-# Sort by the number of orders and display the top 10 locations
-top_locations = location_order_count.sort_values(ascending=False).head(10)
+# Sort by the average freight value and display the top 10 locations
+top_freight_locations = average_freight_by_location.sort_values(ascending=False).head(10)
 
-# Bar plot: Number of orders by top 10 shipping locations
+# Bar plot: Average freight value by top 10 shipping locations
 fig, ax = plt.subplots(figsize=(10, 6))
-top_locations.plot(kind='bar', ax=ax, color='lightblue')
+top_freight_locations.plot(kind='bar', ax=ax, color='lightcoral')
 
-ax.set_title('Top 10 Shipping Locations by Number of Orders')
+ax.set_title('Top 10 Shipping Locations by Average Freight Value')
 ax.set_xlabel('Shipping Location (City)')
-ax.set_ylabel('Number of Orders')
+ax.set_ylabel('Average Freight Value (in currency)')
 
 # Display the plot in Streamlit
 st.pyplot(fig)
