@@ -18,9 +18,6 @@ all_df = pd.read_csv("all_data.csv")
 # Streamlit app setup
 st.title('Simple Data Visualization - Top Product Categories by Total Price')
 
-# Group the data by 'seller_id' and sum the 'freight_value' for each seller
-seller_freight_values = data.groupby('seller_id')['freight_value'].sum().sort_values(ascending=False).head(10)
-
 # Plotting the data using Matplotlib
 fig, ax = plt.subplots()
 seller_freight_values.plot(kind='bar', ax=ax, color='lightcoral')
