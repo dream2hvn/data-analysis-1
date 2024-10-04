@@ -66,3 +66,23 @@ plt.tight_layout()
 
 # Display the plot in Streamlit
 st.pyplot(fig)
+
+# Streamlit app setup
+st.title('Price vs Freight Value by Product Category')
+
+# Scatter plot: Price vs Freight Value with color-coded product categories
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Scatter plot: each product category will be plotted with a different color
+categories = data['product_category_name'].unique()
+for category in categories:
+    category_data = data[data['product_category_name'] == category]
+    ax.scatter(category_data['price'], category_data['freight_value'], label=category, alpha=0.6)
+
+ax.set_title('Price vs Freight Value by Product Category')
+ax.set_xlabel('Price (in currency)')
+ax.set_ylabel('Freight Value (in currency)')
+ax.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
+
+# Display the plot in Streamlit
+st.pyplot(fig)
