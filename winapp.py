@@ -153,7 +153,7 @@ ax.axis('equal')
 # Display the plot in Streamlit
 st.pyplot(fig)
 
- Streamlit app setup
+# Streamlit app setup
 st.title('7. Number of Orders by Shipping Location')
 
 # Assuming there is a 'shipping_state' or 'shipping_city' column in the dataset
