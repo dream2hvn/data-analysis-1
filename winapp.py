@@ -15,15 +15,20 @@ sns.set(style='dark')
 
 all_df = pd.read_csv("all_data.csv")
 
-# Streamlit app setup
-st.title('Simple Data Visualization - Top Product Categories by Total Price')
+# Convert 'shipping_limit_date' to datetime format for easier plotting
+data['shipping_limit_date'] = pd.to_datetime(data['shipping_limit_date'])
 
-# Scatter plot: Price vs Freight Value
+# Streamlit app setup
+st.title('Price and Freight Value Over Time')
+
+# Line plot: Price and Freight Value Over Time
 fig, ax = plt.subplots()
-ax.scatter(data['price'], data['freight_value'], alpha=0.5, color='blue')
-ax.set_title('Price vs Freight Value')
-ax.set_xlabel('Price (in currency)')
-ax.set_ylabel('Freight Value (in currency)')
+ax.plot(data['shipping_limit_date'], data['price'], label='Price', color='green', alpha=0.6)
+ax.plot(data['shipping_limit_date'], data['freight_value'], label='Freight Value', color='red', alpha=0.6)
+ax.set_title('Price and Freight Value Over Time')
+ax.set_xlabel('Shipping Limit Date')
+ax.set_ylabel('Value (in currency)')
+ax.legend()
 
 # Display the plot in Streamlit
 st.pyplot(fig)
