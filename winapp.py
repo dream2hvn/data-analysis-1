@@ -73,17 +73,18 @@ def create_rfm_df(df):
     return rfm_df
 
 # Streamlit app setup
-st.title('Simple Data Visualization')
+st.title('Simple Data Visualization - Top Product Categories by Total Price')
 
-# Visualization 1: Bar chart of product categories and their total prices
+# Group the data by 'product_category_name' and sum the 'price' for each category
 product_category_prices = data.groupby('product_category_name')['price'].sum().sort_values(ascending=False).head(10)
 
-# Plot
+# Plotting the data using Matplotlib
 fig, ax = plt.subplots()
-product_category_prices.plot(kind='bar', ax=ax)
+product_category_prices.plot(kind='bar', ax=ax, color='skyblue')
 ax.set_title('Top 10 Product Categories by Total Price')
 ax.set_xlabel('Product Category')
-ax.set_ylabel('Total Price')
+ax.set_ylabel('Total Price (in currency)')
+plt.xticks(rotation=45, ha='right')
 
 # Display the plot in Streamlit
 st.pyplot(fig)
