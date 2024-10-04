@@ -47,7 +47,7 @@ plt.xticks(rotation=45, ha='right')
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('Distribution of Price and Freight Value')
+st.title('2. Distribution of Price and Freight Value')
 
 # Create two subplots: one for Price distribution, one for Freight Value distribution
 fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
@@ -71,7 +71,7 @@ plt.tight_layout()
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('1. Price vs Freight Value by Product Category')
+st.title('3. Price vs Freight Value by Product Category')
 
 # Scatter plot: Price vs Freight Value with color-coded product categories
 fig, ax = plt.subplots(figsize=(10, 6))
@@ -91,7 +91,7 @@ ax.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('Price Distribution by Product Category')
+st.title('4. Price Distribution by Product Category')
 
 # Filter the top 10 most common product categories to avoid clutter
 top_categories = data['product_category_name'].value_counts().index[:10]
