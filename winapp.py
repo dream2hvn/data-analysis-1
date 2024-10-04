@@ -13,7 +13,7 @@ import seaborn as sns
 import streamlit as st
 sns.set(style='dark')
 
-all_data = pd.read_csv('/content/drive/MyDrive/all_data.csv')
+all_df = pd.read_csv("all_data.csv")
 
 def create_daily_orders_df(df):
     daily_orders_df = df.resample(rule='D', on='order_date').agg({
