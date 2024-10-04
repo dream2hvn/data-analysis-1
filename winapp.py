@@ -152,3 +152,24 @@ ax.axis('equal')
 
 # Display the plot in Streamlit
 st.pyplot(fig)
+
+ Streamlit app setup
+st.title('7. Number of Orders by Shipping Location')
+
+# Assuming there is a 'shipping_state' or 'shipping_city' column in the dataset
+# Group by shipping location (city or state) and count the number of orders
+location_order_count = data.groupby('shipping_city')['order_id'].count()
+
+# Sort by the number of orders and display the top 10 locations
+top_locations = location_order_count.sort_values(ascending=False).head(10)
+
+# Bar plot: Number of orders by top 10 shipping locations
+fig, ax = plt.subplots(figsize=(10, 6))
+top_locations.plot(kind='bar', ax=ax, color='lightblue')
+
+ax.set_title('Top 10 Shipping Locations by Number of Orders')
+ax.set_xlabel('Shipping Location (City)')
+ax.set_ylabel('Number of Orders')
+
+# Display the plot in Streamlit
+st.pyplot(fig)
