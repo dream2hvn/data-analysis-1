@@ -18,15 +18,15 @@ all_df = pd.read_csv("all_data.csv")
 # Streamlit app setup
 st.title('Simple Data Visualization - Top Product Categories by Total Price')
 
-# Group the data by 'product_category_name' and sum the 'price' for each category
-product_category_prices = data.groupby('product_category_name')['price'].sum().sort_values(ascending=False).head(10)
+# Group the data by 'seller_id' and sum the 'freight_value' for each seller
+seller_freight_values = data.groupby('seller_id')['freight_value'].sum().sort_values(ascending=False).head(10)
 
 # Plotting the data using Matplotlib
 fig, ax = plt.subplots()
-product_category_prices.plot(kind='bar', ax=ax, color='skyblue')
-ax.set_title('Top 10 Product Categories by Total Price')
-ax.set_xlabel('Product Category')
-ax.set_ylabel('Total Price (in currency)')
+seller_freight_values.plot(kind='bar', ax=ax, color='lightcoral')
+ax.set_title('Top 10 Sellers by Total Freight Value')
+ax.set_xlabel('Seller ID')
+ax.set_ylabel('Total Freight Value (in currency)')
 plt.xticks(rotation=45, ha='right')
 
 # Display the plot in Streamlit
