@@ -18,13 +18,9 @@ all_df = pd.read_csv("all_data.csv")
 # Streamlit app setup
 st.title('Simple Data Visualization - Top Product Categories by Total Price')
 
-# Plotting the data using Matplotlib
+# Scatter plot: Price vs Freight Value
 fig, ax = plt.subplots()
-seller_freight_values.plot(kind='bar', ax=ax, color='lightcoral')
-ax.set_title('Top 10 Sellers by Total Freight Value')
-ax.set_xlabel('Seller ID')
-ax.set_ylabel('Total Freight Value (in currency)')
-plt.xticks(rotation=45, ha='right')
-
-# Display the plot in Streamlit
-st.pyplot(fig)
+ax.scatter(data['price'], data['freight_value'], alpha=0.5, color='blue')
+ax.set_title('Price vs Freight Value')
+ax.set_xlabel('Price (in currency)')
+ax.set_ylabel('Freight Value (in currency)')
