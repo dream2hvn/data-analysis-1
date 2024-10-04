@@ -29,7 +29,7 @@ data = data.dropna(subset=['shipping_limit_date'])
 data = data.sort_values('shipping_limit_date')
 
 # Streamlit app setup
-st.title('Price and Freight Value Over Time')
+st.title('1. Price and Freight Value Over Time')
 
 # Line plot: Price and Freight Value Over Time
 fig, ax = plt.subplots(figsize=(10, 6))
