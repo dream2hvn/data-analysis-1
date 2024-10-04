@@ -24,3 +24,6 @@ ax.scatter(data['price'], data['freight_value'], alpha=0.5, color='blue')
 ax.set_title('Price vs Freight Value')
 ax.set_xlabel('Price (in currency)')
 ax.set_ylabel('Freight Value (in currency)')
+
+# Display the plot in Streamlit
+st.pyplot(fig)
