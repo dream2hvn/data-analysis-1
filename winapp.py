@@ -71,7 +71,7 @@ plt.tight_layout()
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('Price vs Freight Value by Product Category')
+st.title('1. Price vs Freight Value by Product Category')
 
 # Scatter plot: Price vs Freight Value with color-coded product categories
 fig, ax = plt.subplots(figsize=(10, 6))
