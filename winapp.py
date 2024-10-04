@@ -86,3 +86,24 @@ ax.legend(loc='upper right', bbox_to_anchor=(1.15, 1))
 
 # Display the plot in Streamlit
 st.pyplot(fig)
+
+# Streamlit app setup
+st.title('Price Distribution by Product Category')
+
+# Filter the top 10 most common product categories to avoid clutter
+top_categories = data['product_category_name'].value_counts().index[:10]
+filtered_data = data[data['product_category_name'].isin(top_categories)]
+
+# Box plot: Price distribution for each product category
+fig, ax = plt.subplots(figsize=(10, 6))
+
+# Create the boxplot
+filtered_data.boxplot(column='price', by='product_category_name', ax=ax, grid=False, vert=False)
+
+ax.set_title('Price Distribution by Product Category')
+ax.set_xlabel('Price (in currency)')
+ax.set_ylabel('Product Category')
+plt.suptitle('')  # Remove the automatic boxplot title
+
+# Display the plot in Streamlit
+st.pyplot(fig)
