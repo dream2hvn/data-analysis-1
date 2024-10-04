@@ -42,3 +42,27 @@ plt.xticks(rotation=45, ha='right')
 
 # Display the plot in Streamlit
 st.pyplot(fig)
+
+# Streamlit app setup
+st.title('Distribution of Price and Freight Value')
+
+# Create two subplots: one for Price distribution, one for Freight Value distribution
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(12, 6))
+
+# Plot 1: Price Distribution
+ax1.hist(data['price'], bins=50, color='blue', alpha=0.7)
+ax1.set_title('Price Distribution')
+ax1.set_xlabel('Price (in currency)')
+ax1.set_ylabel('Frequency')
+
+# Plot 2: Freight Value Distribution
+ax2.hist(data['freight_value'], bins=50, color='orange', alpha=0.7)
+ax2.set_title('Freight Value Distribution')
+ax2.set_xlabel('Freight Value (in currency)')
+ax2.set_ylabel('Frequency')
+
+# Adjust layout for better visualization
+plt.tight_layout()
+
+# Display the plot in Streamlit
+st.pyplot(fig)
