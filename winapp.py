@@ -13,6 +13,9 @@ import seaborn as sns
 import streamlit as st
 sns.set(style='dark')
 
+# Title
+st.title('Dashboard Perbandingan sederhana')
+
 # Load the data
 data = pd.read_csv('all_data.csv')
 
