@@ -112,7 +112,7 @@ plt.suptitle('')  # Remove the automatic boxplot title
 st.pyplot(fig)
 
 # Streamlit app setup
-st.title('Number of Orders per Customer')
+st.title('5. Number of Orders per Customer')
 
 # Assuming there is a 'customer_id' column in the dataset
 # Count the number of orders per customer
@@ -128,6 +128,27 @@ top_customers.plot(kind='bar', ax=ax, color='purple')
 ax.set_title('Top 10 Customers by Number of Orders')
 ax.set_xlabel('Customer ID')
 ax.set_ylabel('Number of Orders')
+
+# Display the plot in Streamlit
+st.pyplot(fig)
+
+# Streamlit app setup
+st.title('6. Proportion of Total Spending by Top 5 Customers')
+
+# Assuming there is a 'customer_id' column in the dataset and 'price' as the order value
+# Calculate total spending by each customer
+total_spending_per_customer = data.groupby('order_id')['price'].sum()
+
+# Sort customers by total spending and get the top 5
+top_5_customers = total_spending_per_customer.sort_values(ascending=False).head(5)
+
+# Pie chart: Proportion of total spending by top 5 customers
+fig, ax = plt.subplots(figsize=(8, 8))
+ax.pie(top_5_customers, labels=top_5_customers.index, autopct='%1.1f%%', startangle=90, colors=['lightblue', 'lightgreen', 'lightcoral', 'gold', 'lightpink'])
+ax.set_title('Proportion of Total Spending by Top 5 Customers')
+
+# Equal aspect ratio ensures that pie is drawn as a circle
+ax.axis('equal')
 
 # Display the plot in Streamlit
 st.pyplot(fig)
