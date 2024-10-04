@@ -72,9 +72,6 @@ def create_rfm_df(df):
 
     return rfm_df
 
-# Load your data
-data = pd.read_csv('/content/drive/MyDrive/all_data.csv')
-
 # Streamlit app setup
 st.title('Simple Data Visualization')
 
