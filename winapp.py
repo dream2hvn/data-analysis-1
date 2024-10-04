@@ -14,7 +14,7 @@ import streamlit as st
 sns.set(style='dark')
 
 # Title
-st.title('Dashboard Perbandingan sederhana')
+st.title('Dashboard Some Insights From This Data')
 
 # Load the data
 data = pd.read_csv('all_data.csv')
